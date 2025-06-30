@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudWatch Alarm for EC2 Root Disk Usage
+Resources:
+  RootDiskUsageAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: RootDiskUsageHigh
+      Namespace: CWAgent
+      MetricName: disk_used_percent
+      Dimensions:
+        - Name: InstanceId
+          Value: !Ref EC2Instance  # replace with your instance logical ID or parameter
+      Statistic: Average
+      Period: '60'
+      EvaluationPeriods: '1'
+      Threshold: '90'
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: missing
+      AlarmActions:
+        - !Ref RootGuardEventRuleARN  # define this mapping to your EventBridge rule ARN
+Parameters:
+  EC2Instance:
+    Type: String
+    Description: Logical ID or InstanceId of the EC2 to monitor
+  RootGuardEventRuleARN:
+    Type: String
+    Description: ARN of the EventBridge rule to trigger the Step Function

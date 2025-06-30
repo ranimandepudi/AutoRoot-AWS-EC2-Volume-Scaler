@@ -1,0 +1,16 @@
+{
+  "source": ["aws.cloudwatch"],
+  "detail-type": ["CloudWatch Alarm State Change"],
+  "detail": {
+    "alarmName": ["RootVolumeHighUsage"],
+    "state": {
+      "value": ["ALARM"]
+    }
+  },
+  "targets": [
+    {
+      "Arn": "arn:aws:lambda:REGION:ACCOUNT_ID:function:EBSGrowStepTrigger",
+      "Id": "TriggerStepFunction"
+    }
+  ]
+}

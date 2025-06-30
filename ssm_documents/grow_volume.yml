@@ -1,0 +1,10 @@
+schemaVersion: '2.2'
+description: "Grow EC2 Volume and Filesystem"
+name: GrowVolume
+mainSteps:
+  - action: aws:runShellScript
+    name: growVolume
+    inputs:
+      runCommand:
+        - "sudo growpart /dev/nvme0n1 1"
+        - "sudo xfs_growfs /"

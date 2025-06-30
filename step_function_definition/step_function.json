@@ -1,0 +1,22 @@
+{
+  "GetEBSID": {
+    "Type": "Task",
+    "Resource": "arn:aws:lambda:...:function:GetEBSID",
+    "ResultPath": "$.GetEBSIDResult",
+    "Next": "GrowEBS"
+  },
+  "GrowEBS": {
+    "Type": "Task",
+    "Resource": "arn:aws:lambda:...:function:GrowEBS",
+    "Parameters": {
+      "VolumeId.$": "$.GetEBSIDResult.VolumeId"
+    },
+    "ResultPath": "$.GrowEBSResult",
+    "Next": "GrowFS"
+  },
+  "GrowFS": {
+    "Type": "Task",
+    "Resource": "arn:aws:lambda:...:function:GrowFS",
+    "End": true
+  }
+}
